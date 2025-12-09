@@ -62,7 +62,9 @@ const leadSchema = new mongoose.Schema({
 
   message: { 
     type: String,
-    maxlength: [500, "Message cannot exceed 500 characters"]
+    maxlength: [500, "Message cannot exceed 500 characters"],
+    default: null, 
+
   },
 
   createdAt: { type: Date, default: Date.now },

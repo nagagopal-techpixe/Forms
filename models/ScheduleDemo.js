@@ -25,6 +25,7 @@ const scheduleDemoSchema = new mongoose.Schema({
     type: String,
     trim: true,
     lowercase: true,
+    required: [true, "Email is required"],
     unique: true, 
     validate: {
       validator: function(v) {
@@ -38,7 +39,9 @@ const scheduleDemoSchema = new mongoose.Schema({
   businessName: { 
     type: String,
     trim: true,
-    maxlength: [100, "Business Name cannot exceed 100 characters"]
+    maxlength: [100, "Business Name cannot exceed 100 characters"],
+    required: [true, "Phone Number is required"],
+
   },
 
   countryTimezone: {
@@ -62,7 +65,14 @@ const scheduleDemoSchema = new mongoose.Schema({
   preferredTimeSlot: { 
     type: String, 
     enum: {
-      values: ["Morning Slot", "Afternoon Slot", "Evening Slot"],
+      values: [
+          "10:00 AM",
+          "11:00 AM",
+          "1:00 PM",
+          "2:00 PM",
+          "4:00 PM",
+          "5:00 PM"
+        ],
       message: "{VALUE} is not a valid time slot"
     },
     required: [true, "Preferred time slot is required"]

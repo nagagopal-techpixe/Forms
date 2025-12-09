@@ -11,19 +11,15 @@ const demoRequestSchema = new mongoose.Schema({
   phoneNumber: { 
     type: String, 
     unique: true, 
-    required: [true, "Phone Number is required"],
-    validate: {
-      validator: function(v) {
-        return /^\+?\d{10,15}$/.test(v); // Allows optional +, 10-15 digits
-      },
-      message: props => `${props.value} is not a valid phone number!`
-    }
+    required: [true, "Phone Number (WhatsApp) is required"],
+    match: [/^\+?[0-9]{8,15}$/, "Invalid phone number format"]
   },
   email: { 
     type: String,
     unique: true, 
     trim: true,
     lowercase: true,
+    required: [true, "Email is required"],
     validate: {
       validator: function(v) {
         return !v || /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(v);
@@ -34,27 +30,48 @@ const demoRequestSchema = new mongoose.Schema({
   businessName: { 
     type: String,
     trim: true,
+    required: true,
     maxlength: [100, "Business Name cannot exceed 100 characters"]
   },
 businessType: {
-  type: [String],
+  type: String,
   required: true,
     },
   preferredDemoType: { 
-    type: String, 
+    type: String,
+  required: true,
     enum: {
       values: ["Recorded Video Demo","Live Zoom Demo"],
       message: "{VALUE} is not a valid demo type"
     }
   },
+  preferredTimeSlot: { 
+    type: String, 
+    enum: {
+      values: [
+              "10:00 AM",
+              "11:00 AM",
+              "1:00 PM",
+              "2:00 PM",
+              "4:00 PM",
+              "5:00 PM"
+            ],
+      message: "{VALUE} is not a valid time slot"
+    },
+    default: null, 
+    // required: [true, "Preferred time slot is required"]
+  },
   featuresInterested: [{
     type: String,
-    trim: true
+    trim: true,
+     default: null, 
   }],
   questions: { 
     type: String,
     trim: true,
-    maxlength: [500, "Questions cannot exceed 500 characters"]
+    maxlength: [500, "Questions cannot exceed 500 characters"],
+     default: null, 
+
   },
   createdAt: { type: Date, default: Date.now },
 });

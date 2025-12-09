@@ -36,11 +36,8 @@ export const createDemoRequest = async (req, res) => {
 
     // ❌ 3. Handle validation errors from Mongoose
     if (error.name === "ValidationError") {
-      return res.status(400).json({
-        success: false,
-        message: "Validation Error",
-        errors: error.errors,
-      });
+      return res.status(400).json({ success: false, message: error.message });
+     
     }
 
     res.status(500).json({ 
@@ -55,7 +52,19 @@ export const createDemoRequest = async (req, res) => {
 export const getDemoRequests = async (req, res) => {
   try {
     const requests = await DemoRequest.find().sort({ createdAt: -1 });
-    res.json({ success: true, data: requests });
+    const filteredLeads = requests.map(request => ({
+      fullName:request.fullName,
+      businessName:request.businessName,
+      email:request.email,
+      phoneNumber:request.phoneNumber,
+      businessType:request.businessType,
+      preferredDemoType:request.preferredDemoType,
+      preferredTimeSlot:request.preferredTimeSlot,
+      featuresInterested:request.featuresInterested,
+      questions:request.questions,
+
+    }));
+    res.json({ success: true, data: filteredLeads });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: "Server Error" });

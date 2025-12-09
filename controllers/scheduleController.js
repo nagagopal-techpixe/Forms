@@ -54,7 +54,18 @@ export const createSchedule = async (req, res) => {
 export const getSchedules = async (req, res) => {
   try {
     const schedules = await ScheduleDemo.find().sort({ createdAt: -1 });
-    res.json({ success: true, data: schedules });
+     const filteredschedules = schedules.map(schedule => ({
+      fullName:schedule.fullName,
+      businessName:schedule.businessName,
+      email:schedule.email,
+      phoneNumber:schedule.phoneNumber,
+      countryTimezone:schedule.countryTimezone,
+      preferredDate:schedule.preferredDate,
+
+      preferredTimeSlot:schedule.preferredTimeSlot,
+      teamMembers:schedule.teamMembers,
+    }));
+    res.json({ success: true, data: filteredschedules });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server Error" });
   }

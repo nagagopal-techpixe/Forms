@@ -2,9 +2,8 @@
   "name": "popupform",
   "version": "1.0.0",
   "main": "index.js",
-
   "type": "module",
- "scripts": {
+  "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js"
   },
